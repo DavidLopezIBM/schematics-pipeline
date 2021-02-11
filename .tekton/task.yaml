@@ -9,8 +9,8 @@ spec:
     - name: WORKSPACE_ID
       description: the workspace id
   workspaces:
-    - name: task-ws
-      mountPath: /artifacts
+  - name: task-ws
+    mountPath: /artifacts
   steps:
     - name: update-workspace
       image: ibmcom/pipeline-base-image
@@ -66,8 +66,8 @@ spec:
     - name: WORKSPACE_ID
       description: the workspace id
   workspaces:
-    - name: task-ws
-      mountPath: /artifacts
+  - name: task-ws
+    mountPath: /artifacts
   steps:
     - name: terraform-plan
       image: ibmcom/pipeline-base-image
@@ -120,8 +120,8 @@ spec:
     - name: WORKSPACE_ID
       description: the workspace id
   workspaces:
-    - name: task-ws
-      mountPath: /artifacts
+  - name: task-ws
+    mountPath: /artifacts
   steps:
     - name: terraform-apply
       image: ibmcom/pipeline-base-image
@@ -169,8 +169,8 @@ metadata:
   name: test-task
 spec:
   workspaces:
-    - name: task-ws
-      mountPath: /artifacts
+  - name: task-ws
+    mountPath: /artifacts
   steps:
     - name: check-health
       image: ibmcom/pipeline-base-image
