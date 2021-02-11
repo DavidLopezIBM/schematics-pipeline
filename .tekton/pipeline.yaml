@@ -22,10 +22,10 @@ spec:
       taskRef:
         name: plan-task
       params:
-        - name: API_KEY
-          description: the ibmcloud api key
         - name: WORKSPACE_ID
-          description: the workspace id
+          value: $(params.WORKSPACE_ID)
+        - name: API_KEY
+          value: $(params.API_KEY)
     - name: apply
       runAfter: [plan]
       taskRef:
