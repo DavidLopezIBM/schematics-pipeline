@@ -19,7 +19,7 @@ spec:
           value: $(params.API_KEY)
         - name: WORKSPACE_ID
           value: $(params.WORKSPACE_ID)
-      command: ["/bin/sh", "-c"]
+      command: ["/bin/bash", "-c"]
       args:
         - |
           #!/bin/bash
@@ -77,7 +77,7 @@ spec:
           value: $(params.API_KEY)
         - name: WORKSPACE_ID
           value: $(params.WORKSPACE_ID)
-      command: ["/bin/sh", "-c"]
+      command: ["/bin/bash", "-c"]
       args:
         - |
           #!/bin/bash
@@ -132,7 +132,7 @@ spec:
           value: $(params.API_KEY)
         - name: WORKSPACE_ID
           value: $(params.WORKSPACE_ID)
-      command: ["/bin/sh", "-c"]
+      command: ["/bin/bash", "-c"]
       args:
         - |
           #!/bin/bash
@@ -177,6 +177,6 @@ spec:
   steps:
     - name: check-health
       image: ibmcom/pipeline-base-image
-      command: ["/bin/sh", "-c"]
+      command: ["/bin/bash", "-c"]
       args:
         - echo "You can add tests here to ensure that your resources are healthy!"
