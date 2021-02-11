@@ -54,6 +54,35 @@ spec:
           ibmcloud terraform workspace update --id $WORKSPACE_ID --file workspace.json
           # cleanup
           rm -f workspace.json
+          ibmcloud terraform workspace update --id $WORKSPACE_ID --file workspace.json
+          # cleanup
+          rm -f workspace.json
+          ACTIVITY=$(ibmcloud terraform plan -id $WORKSPACE_ID --json)
+          ACTIVITY_ID=$(echo $ACTIVITY | jq -r ".activityid")
+          echo "Activity ID   $ACTIVITY_ID"
+          # poll until status is no longer INPROGRESS, or if there is an error
+          while :
+          do
+            STATUS=$(ibmcloud terraform workspace action --id $WORKSPACE_ID --act-id $ACTIVITY_ID --json)
+            
+            RET_VAL=$?
+            if [ $RET_VAL -ne 0 ]; then
+              echo $STATUS
+              exit $RET_VAL
+            else
+              STATUS_VALUE=$(echo $STATUS | jq -r ".status")
+              echo "Polling for status: $STATUS_VALUE"
+              if [ "$STATUS_VALUE" = "FAILED" ]; then 
+                ibmcloud terraform logs --id $WORKSPACE_ID --act-id $ACTIVITY_ID
+                exit 1
+              elif [ "$STATUS_VALUE" != "INPROGRESS" ] && [ "$STATUS_VALUE" != "CREATED" ] && [ "$STATUS_VALUE" != "UPDATING" ]; then  
+                break
+              fi
+            fi
+            # sleep for 5 seconds, while waiting for completion
+            sleep 5
+          done
+          ibmcloud terraform logs --id $WORKSPACE_ID --act-id $ACTIVITY_ID
           unset WORKSPACE
 ---
 apiVersion: tekton.dev/v1beta1
