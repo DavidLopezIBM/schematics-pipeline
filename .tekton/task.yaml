@@ -13,6 +13,7 @@ spec:
       mountPath: /artifacts
   steps:
     - name: update-workspace
+      image: ibmcom/pipeline-base-image
       env:
         - name: API_KEY
           value: $(params.API_KEY)
@@ -69,6 +70,7 @@ spec:
       mountPath: /artifacts
   steps:
     - name: terraform-plan
+      image: ibmcom/pipeline-base-image
       env:
         - name: API_KEY
           value: $(params.API_KEY)
@@ -122,6 +124,7 @@ spec:
       mountPath: /artifacts
   steps:
     - name: terraform-apply
+      image: ibmcom/pipeline-base-image
       env:
         - name: API_KEY
           value: $(params.API_KEY)
@@ -170,6 +173,7 @@ spec:
       mountPath: /artifacts
   steps:
     - name: check-health
+      image: ibmcom/pipeline-base-image
       command: ["/bin/sh", "-c"]
       args:
         -  echo "You can add tests here to ensure that your resources are healthy!"
