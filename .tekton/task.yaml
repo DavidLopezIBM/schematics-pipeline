@@ -179,6 +179,4 @@ spec:
       image: ibmcom/pipeline-base-image
       command: ["/bin/sh", "-c"]
       args:
-        - |
-        #!/bin/bash
-        echo "You can add tests here to ensure that your resources are healthy!"
+        - echo "You can add tests here to ensure that your resources are healthy!"
