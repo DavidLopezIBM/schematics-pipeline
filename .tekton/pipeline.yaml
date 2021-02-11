@@ -15,8 +15,8 @@ spec:
       taskRef:
         name: update-workspace-task
       workspaces:
-        - name: task-ws
-          workspace: pipeline-ws
+      - name: task-ws
+        workspace: pipeline-ws
       params:
         - name: WORKSPACE_ID
           value: $(params.WORKSPACE_ID)
@@ -27,8 +27,8 @@ spec:
       taskRef:
         name: plan-task
       workspaces:
-        - name: task-ws
-          workspace: pipeline-ws
+      - name: task-ws
+        workspace: pipeline-ws
       params:
         - name: WORKSPACE_ID
           value: $(params.WORKSPACE_ID)
@@ -39,8 +39,8 @@ spec:
       taskRef:
         name: apply-task
       workspaces:
-        - name: task-ws
-          workspace: pipeline-ws
+      - name: task-ws
+        workspace: pipeline-ws
       params:
         - name: WORKSPACE_ID
           value: $(params.WORKSPACE_ID)
@@ -49,7 +49,7 @@ spec:
     - name: test
       runAfter: [apply]
       workspaces:
-        - name: task-ws
-          workspace: pipeline-ws
+      - name: task-ws
+        workspace: pipeline-ws
       taskRef:
         name: test-task
