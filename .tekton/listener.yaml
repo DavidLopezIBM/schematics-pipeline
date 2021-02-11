@@ -26,9 +26,9 @@ spec:
         name: pipelinerun-$(uid)
       spec:
         pipelineRef:
-          name: pipeline
+          name: pipeline-ws
         workspaces:
-          - name: pipeline-pvc
+          - name: pipeline-ws
             persistentVolumeClaim:
               claimName: pipelinerun-$(uid)-pvc
         params:
