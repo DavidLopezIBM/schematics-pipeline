@@ -20,7 +20,8 @@ spec:
           value: $(params.WORKSPACE_ID)
       command: ["/bin/sh", "-c"]
       args:
-        - echo "Workspace $WORKSPACE_ID"
+        - |
+          echo "Workspace $WORKSPACE_ID"
           # force login (required by schematics cli)
           ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
           # get schematics workspace as json
@@ -75,7 +76,8 @@ spec:
           value: $(params.WORKSPACE_ID)
       command: ["/bin/sh", "-c"]
       args:
-        - ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
+        - |
+          ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
           # run terraform plan
           echo "ibmcloud terraform plan --id $WORKSPACE_ID"
           ACTIVITY=$(ibmcloud terraform plan -id $WORKSPACE_ID --json)
@@ -127,7 +129,8 @@ spec:
           value: $(params.WORKSPACE_ID)
       command: ["/bin/sh", "-c"]
       args:
-        - ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
+        - |
+          ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
           # run terraform apply
           echo "ibmcloud terraform apply --id $WORKSPACE_ID --force"
           ACTIVITY=$(ibmcloud terraform apply -id $WORKSPACE_ID --json --force)
@@ -170,5 +173,3 @@ spec:
       command: ["/bin/sh", "-c"]
       args:
         -  echo "You can add tests here to ensure that your resources are healthy!"
-    
-
