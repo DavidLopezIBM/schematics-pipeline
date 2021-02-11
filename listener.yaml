@@ -4,25 +4,10 @@ metadata:
   name: template
 spec:
   params:
-    - name: repository
-      description: The git repo
-    - name: revision
-      description: the branch for the git repo
-    - name: apikey
+    - name: WORKSPACE_ID
+      description: the workspace id
+    - name: API_KEY
       description: the ibmcloud api key
-    - name: registryNamespace
-      description: the ibmcloud registry namespace
-    - name: registryRegion
-      description: the ibmcloud registry region
-      default: us-south
-    - name: cluster
-      description: The IBM Cloud Kubernetes cluster name
-    - name: clusterRegion
-      description: The IBM Cloud Kubernetes cluster region
-      default: us-south
-    - name: clusterNamespace
-      description: The Kubernetes cluster namespace
-      default: prod
   resourcetemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -59,7 +44,7 @@ metadata:
 spec:
   params:
     - name: repository
-      value: "https://github.com/open-toolchain/hello-tekton"
+      value: "https://github.com/DavidLopezIBM/schematics-tekton"
     - name: revision
       value: "master"
 ---
