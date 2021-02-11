@@ -22,6 +22,7 @@ spec:
       command: ["/bin/sh", "-c"]
       args:
         - |
+          #!/bin/bash
           echo "Workspace $WORKSPACE_ID"
           # force login (required by schematics cli)
           ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
@@ -79,6 +80,7 @@ spec:
       command: ["/bin/sh", "-c"]
       args:
         - |
+          #!/bin/bash
           ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
           # run terraform plan
           echo "ibmcloud terraform plan --id $WORKSPACE_ID"
@@ -133,6 +135,7 @@ spec:
       command: ["/bin/sh", "-c"]
       args:
         - |
+          #!/bin/bash
           ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
           # run terraform apply
           echo "ibmcloud terraform apply --id $WORKSPACE_ID --force"
@@ -176,4 +179,6 @@ spec:
       image: ibmcom/pipeline-base-image
       command: ["/bin/sh", "-c"]
       args:
-        -  echo "You can add tests here to ensure that your resources are healthy!"
+        -  
+        #!/bin/bash
+        echo "You can add tests here to ensure that your resources are healthy!"
