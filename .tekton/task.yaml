@@ -54,7 +54,7 @@ spec:
           ibmcloud terraform workspace update --id $WORKSPACE_ID --file workspace.json
           # cleanup
           rm -f workspace.json
-          sleep 60
+          sleep 10
           unset WORKSPACE
 ---
 apiVersion: tekton.dev/v1beta1
