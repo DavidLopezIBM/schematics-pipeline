@@ -54,9 +54,7 @@ spec:
           ibmcloud terraform workspace update --id $WORKSPACE_ID --file workspace.json
           # cleanup
           rm -f workspace.json
-          ibmcloud terraform workspace update --id $WORKSPACE_ID --file workspace.json
-          # cleanup
-          rm -f workspace.json
+          
           ACTIVITY=$(ibmcloud terraform plan -id $WORKSPACE_ID --json)
           ACTIVITY_ID=$(echo $ACTIVITY | jq -r ".activityid")
           echo "Activity ID   $ACTIVITY_ID"
