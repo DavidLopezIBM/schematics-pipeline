@@ -18,7 +18,7 @@ spec:
         - name: API_KEY
           value: $(params.API_KEY)
     - name: plan
-      runAfter: [Update-Workspace]
+      runAfter: [update-workspace]
       taskRef:
         name: plan-task
       params:
