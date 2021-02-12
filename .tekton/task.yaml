@@ -748,6 +748,9 @@ spec:
   workspaces:
     - name: task-ws
       mountPath: /artifacts
+    - name: secrets
+      mountPath: /secrets
+
   volumes:
     - name: steps-volume
       emptyDir: {}
