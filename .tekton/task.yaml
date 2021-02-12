@@ -681,7 +681,7 @@ spec:
             fi
             echo "Fetching token for $REPOSITORY"
             ibmcloud config --check-version false
-            ibmcloud login -a $API_ENDPOINT -r $TOOLCHAIN_REGION --apikey $API_KEY
+            ibmcloud login -a "https://cloud.ibm.com" -r $TOOLCHAIN_REGION --apikey $API_KEY
             if [ "$(params.resource-group)" ]; then
               ibmcloud target -g $(params.resource-group)
             fi
