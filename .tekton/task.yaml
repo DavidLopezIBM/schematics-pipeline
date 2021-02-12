@@ -78,7 +78,7 @@ spec:
     - name: git-user
       description: The auth user that cloned the repository
   workspaces:
-    - name: output
+    - name: task-ws
       description: The git repo will be cloned onto the volume backing this workspace
       mountPath: /artifacts
   stepTemplate:

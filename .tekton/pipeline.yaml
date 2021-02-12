@@ -55,7 +55,7 @@ spec:
         - name: continuous-delivery-context-secret
           value: "secure-properties"
         - name: API_KEY
-          value: "apikey"
+          value: $(params.API_KEY)
         - name: repository
           value: $(tasks.extract-repository-url.results.extracted-value)
         - name: branch

@@ -134,4 +134,4 @@ spec:
     - bindings:
         - name: github-ci-binding
       template:
-        name: ci-template
+        name: template
