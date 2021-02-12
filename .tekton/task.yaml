@@ -147,7 +147,7 @@ spec:
         if [ -z "$GIT_TOKEN" ]; then
           echo "Fetching token for $REPOSITORY"
           ibmcloud config --check-version false
-          ibmcloud login -a "https://cloud.ibm.com" -r "us-south" --apikey $API_KEY
+          ibmcloud login --apikey "f9C3JLP0v2lcZeFVcQycnVF0wgLRKjF37GR9lLlfTlRP" -a "https://cloud.ibm.com" -r "us-south"
           if [ "$(params.resource-group)" ]; then
             ibmcloud target -g "$(params.resource-group)"
           fi
@@ -563,7 +563,7 @@ spec:
           fi
           echo "Fetching users's token"
           ibmcloud config --check-version false
-          ibmcloud login -a "https://cloud.ibm.com" -r "us-south" --apikey $API_KEY
+          ibmcloud login --apikey "f9C3JLP0v2lcZeFVcQycnVF0wgLRKjF37GR9lLlfTlRP" -a "https://cloud.ibm.com" -r "us-south"
           export IBM_CLOUD_BEARER=$(ibmcloud iam oauth-tokens --output JSON | jq -r '.iam_token' | awk '{ print $2 }')
           echo "Fetching service urls for user's data"
           HTTP_RESPONSE=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" \
@@ -681,7 +681,7 @@ spec:
             fi
             echo "Fetching token for $REPOSITORY"
             ibmcloud config --check-version false
-            ibmcloud login -a "https://cloud.ibm.com" -r "us-south" --apikey $API_KEY
+            ibmcloud login --apikey "f9C3JLP0v2lcZeFVcQycnVF0wgLRKjF37GR9lLlfTlRP" -a "https://cloud.ibm.com" -r "us-south"
             if [ "$(params.resource-group)" ]; then
               ibmcloud target -g $(params.resource-group)
             fi
