@@ -12,8 +12,7 @@ spec:
       description: name of the secret containing the continuous delivery pipeline context secrets
       default: secure-properties
     - name: API_KEY
-      description: field in the secret that contains the api key used to login to ibmcloud
-      default: apikey
+      description: the ibmcloud api key
     - name: git-access-token
       description: |
         (optional) token to access the git repository. If this token is provided, there will not be an attempt
@@ -84,11 +83,7 @@ spec:
   stepTemplate:
     env:
       - name: API_KEY
-        valueFrom:
-          secretKeyRef:
-            name: $(params.continuous-delivery-context-secret)
-            key: $(params.API_KEY)
-            optional: true
+        value: $(params.API_KEY)
       - name: PIPELINE_DEBUG
         value: $(params.pipeline-debug)
   steps:
@@ -97,6 +92,8 @@ spec:
       env:
         - name: REPOSITORY
           value: $(params.repository)
+        - name: API_KEY
+          value: $(params.API_KEY)
       script: |
         #!/bin/bash
         set -e -o pipefail
@@ -147,7 +144,7 @@ spec:
         if [ -z "$GIT_TOKEN" ]; then
           echo "Fetching token for $REPOSITORY"
           ibmcloud config --check-version false
-          ibmcloud login --apikey "f9C3JLP0v2lcZeFVcQycnVF0wgLRKjF37GR9lLlfTlRP" -a "https://cloud.ibm.com" -r "us-south"
+          ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" -r "us-south"
           if [ "$(params.resource-group)" ]; then
             ibmcloud target -g "$(params.resource-group)"
           fi
@@ -532,11 +529,7 @@ spec:
         - name: REPOSITORY
           value: $(params.repository)
         - name: API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: $(params.continuous-delivery-context-secret)
-              key: $(params.API_KEY)
-              optional: true
+          value: $(params.API_KEY)
       imagePullPolicy: Always
       command: ["/bin/bash", "-c"]
       args:
@@ -563,7 +556,7 @@ spec:
           fi
           echo "Fetching users's token"
           ibmcloud config --check-version false
-          ibmcloud login --apikey "f9C3JLP0v2lcZeFVcQycnVF0wgLRKjF37GR9lLlfTlRP" -a "https://cloud.ibm.com" -r "us-south"
+          ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" -r "us-south"
           export IBM_CLOUD_BEARER=$(ibmcloud iam oauth-tokens --output JSON | jq -r '.iam_token' | awk '{ print $2 }')
           echo "Fetching service urls for user's data"
           HTTP_RESPONSE=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" \
@@ -626,11 +619,7 @@ spec:
         - name: API_ENDPOINT
           value: $(params.ibmcloud-api)
         - name: API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: $(params.continuous-delivery-context-secret)
-              key: $(params.API_KEY)
-              optional: true
+          value: $(params.API_KEY)
       command: ["/bin/bash", "-c"]
       args:
         - |
@@ -681,7 +670,7 @@ spec:
             fi
             echo "Fetching token for $REPOSITORY"
             ibmcloud config --check-version false
-            ibmcloud login --apikey "f9C3JLP0v2lcZeFVcQycnVF0wgLRKjF37GR9lLlfTlRP" -a "https://cloud.ibm.com" -r "us-south"
+            ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" -r "us-south"
             if [ "$(params.resource-group)" ]; then
               ibmcloud target -g $(params.resource-group)
             fi

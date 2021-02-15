@@ -86,6 +86,8 @@ spec:
           value: $(tasks.extract-repository-url.results.extracted-value)
         - name: revision
           value: $(params.commit-id)
+        - name: API_KEY
+          value: $(params.API_KEY)
         - name: scm-type
           value: $(params.scm-type)
         - name: project-id
