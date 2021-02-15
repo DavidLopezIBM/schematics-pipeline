@@ -16,7 +16,6 @@ spec:
       description: branch
     - name: revision
       description: the git revision/commit for the git repo
-      default: ""
     - name: commit-id
       description: commit id
     - name: commit-timestamp

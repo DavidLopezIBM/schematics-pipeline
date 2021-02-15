@@ -30,7 +30,6 @@ spec:
       description: |
         the git revision/commit to update the git HEAD to.
         Default is to mean only use the branch
-      default: ""
     - name: git-client-image
       description: The image to use to run git clone commands
       default: alpine/git
