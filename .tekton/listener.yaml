@@ -12,6 +12,8 @@ spec:
       description: The git repo
     - name: branch
       description: branch
+    - name: revision
+      description: the commit id/sha for the clone action
     - name: repository-integration
       description: the repo integration name
     - name: commit-id
