@@ -30,6 +30,7 @@ spec:
       description: |
         the git revision/commit to update the git HEAD to.
         Default is to mean only use the branch
+      default: "test"
     - name: git-client-image
       description: The image to use to run git clone commands
       default: alpine/git
@@ -47,7 +48,7 @@ spec:
       default: ""
     - name: pr-revision
       description: the commit/revision in the source branch of the PullRequest that is to be built
-      default: ""
+      default: "test"
     - name: directory-name
       description: |
         name of the new directory to clone into.

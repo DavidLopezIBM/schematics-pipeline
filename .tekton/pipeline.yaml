@@ -16,6 +16,7 @@ spec:
       description: branch
     - name: revision
       description: the git revision/commit for the git repo
+      default: "test"
     - name: commit-id
       description: commit id
     - name: commit-timestamp
@@ -84,7 +85,7 @@ spec:
         - name: repository
           value: $(tasks.extract-repository-url.results.extracted-value)
         - name: revision
-          value: $(params.commit-id)
+          value: "test"
         - name: API_KEY
           value: $(params.API_KEY)
         - name: scm-type
