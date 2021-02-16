@@ -1,10 +1,10 @@
 version: 2
 template:
-  name: Build your own toolchain
-  description: schematics-test-dl-tekton
+  name: "Schematics Infrastructure as Code Tekton Toolchain"
+  description: "Prototype toolchain templates for IBM Cloud Schematics "
   required:
-    - githubconsolidated02
-    - githubconsolidated04
+    - terraform-template
+    - schematics-tekton
 toolchain:
   name: schematics-test-dl-tekton
 services:
@@ -21,7 +21,7 @@ services:
       toolchain_id: 34eaeb13-56b9-4f0d-8f3c-abc5e390310e
       dashboard_url: /devops/code/edit/edit.html#,toolchain=34eaeb13-56b9-4f0d-8f3c-abc5e390310e
     service_id: orion
-  githubconsolidated02:
+  terraform-template:
     parameters:
       extra_capabilities:
         - capability_id: git.issues
@@ -59,15 +59,15 @@ services:
       ui_pipeline: true
       configuration:
         env:
-          githubconsolidated02: githubconsolidated02
-          githubconsolidated04: githubconsolidated04
+          terraform-template: terraform-template
+          schematics-tekton: schematics-tekton
         content:
           $text: pipeline_pipeline03.yml
       services:
-        - githubconsolidated02
-        - githubconsolidated04
+        - terraform-template
+        - schematics-tekton
     service_id: pipeline
-  githubconsolidated04:
+  schematics-tekton:
     parameters:
       extra_capabilities:
         - capability_id: git.issues
@@ -96,3 +96,9 @@ services:
       api_root_url: https://api.github.com
       token_url: https://otc-github-consolidated-broker.us-south.devops.cloud.ibm.com/github/token?git_id=github
     service_id: githubconsolidated
+form:
+  pipeline:
+    parameters:
+      workspace-id: "{{workspaceId}}"
+    schema:
+      $ref: deploy.json

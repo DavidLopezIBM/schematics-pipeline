@@ -19,9 +19,9 @@ triggers:
       - type: text
         name: tf-dir
         value: sample
-    service: ${githubconsolidated02}
+    service: ${terraform-template}
 inputs:
   - type: git
     path: .tekton
     branch: main
-    service: ${githubconsolidated04}
+    service: ${schematics-tekton}
