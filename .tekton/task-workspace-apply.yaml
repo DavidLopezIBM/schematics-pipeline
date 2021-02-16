@@ -10,7 +10,7 @@ spec:
     - name: continuous-delivery-context-secret
       description: Reference name for the secret resource
       default: "secure-properties"
-    - name: workspace-id
+    - name: WORKSPACE_ID
       description: the workspace id
   workspaces:
     - name: artifacts
@@ -25,22 +25,22 @@ spec:
               name: $(params.continuous-delivery-context-secret)
               key: $(params.ibmcloud-apikey-secret-key)
               optional: true
-        - name: workspace-id
-          value: $(params.workspace-id)
+        - name: WORKSPACE_ID
+          value: $(params.WORKSPACE_ID)
       command: ["/bin/bash", "-c"]
       args:
         - |
           #!/bin/bash
           ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
           # run terraform apply
-          echo "ibmcloud terraform apply --id $workspace-id --force"
-          ACTIVITY=$(ibmcloud terraform apply -id $workspace-id --json --force)
+          echo "ibmcloud terraform apply --id $WORKSPACE_ID --force"
+          ACTIVITY=$(ibmcloud terraform apply -id $WORKSPACE_ID --json --force)
           ACTIVITY_ID=$(echo $ACTIVITY | jq -r ".activityid")
           echo "Activity ID   $ACTIVITY_ID"
           # poll until status is no longer INPROGRESS, or if there is an error
           while :
           do
-            STATUS=$(ibmcloud terraform workspace action --id $workspace-id --act-id $ACTIVITY_ID --json)
+            STATUS=$(ibmcloud terraform workspace action --id $WORKSPACE_ID --act-id $ACTIVITY_ID --json)
             
             RET_VAL=$?
             if [ $RET_VAL -ne 0 ]; then
@@ -50,7 +50,7 @@ spec:
               STATUS_VALUE=$(echo $STATUS | jq -r ".status")
               echo "Polling for status: $STATUS_VALUE"
               if [ "$STATUS_VALUE" = "FAILED" ]; then
-                ibmcloud terraform logs --id $workspace-id --act-id $ACTIVITY_ID
+                ibmcloud terraform logs --id $WORKSPACE_ID --act-id $ACTIVITY_ID
                 exit 1
               elif [ "$STATUS_VALUE" != "INPROGRESS" ]; then  
                 break
@@ -59,4 +59,4 @@ spec:
             # sleep for 5 seconds, while waiting for completion
             sleep 5
           done
-          ibmcloud terraform logs --id $workspace-id --act-id $ACTIVITY_ID
+          ibmcloud terraform logs --id $WORKSPACE_ID --act-id $ACTIVITY_ID

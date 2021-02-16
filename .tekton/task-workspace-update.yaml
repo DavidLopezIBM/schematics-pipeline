@@ -10,7 +10,7 @@ spec:
     - name: continuous-delivery-context-secret
       description: Reference name for the secret resource
       default: "secure-properties"
-    - name: workspace-id
+    - name: WORKSPACE_ID
       description: the workspace id
   workspaces:
     - name: artifacts
@@ -25,17 +25,17 @@ spec:
               name: $(params.continuous-delivery-context-secret)
               key: $(params.ibmcloud-apikey-secret-key)
               optional: true
-        - name: workspace-id
-          value: $(params.workspace-id)
+        - name: WORKSPACE_ID
+          value: $(params.WORKSPACE_ID)
       command: ["/bin/bash", "-c"]
       args:
         - |
           #!/bin/bash
-          echo "Workspace $workspace-id"
+          echo "Workspace $WORKSPACE_ID"
           # force login (required by schematics cli)
           ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
           # get schematics workspace as json
-          WORKSPACE=$(ibmcloud terraform workspace get -i $workspace-id --json)
+          WORKSPACE=$(ibmcloud terraform workspace get -i $WORKSPACE_ID --json)
           echo "Updating Schematics workspace from environment variables..."
           # iterate over ALL schematics worskpace variables to see if there is a matching env var
           for KEY in $(echo $WORKSPACE | jq ".template_data[0].values_metadata[].name" -r); do
@@ -59,7 +59,7 @@ spec:
               fi
           done
           echo $WORKSPACE > workspace.json
-          ibmcloud terraform workspace update --id $workspace-id --file workspace.json
+          ibmcloud terraform workspace update --id $WORKSPACE_ID --file workspace.json
           # cleanup
           rm -f workspace.json
           sleep 10

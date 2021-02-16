@@ -22,7 +22,7 @@ spec:
     - name: pipeline-debug
       description: toggles debug mode for the pipeline
       default: "0"
-    - name: workspace-id
+    - name: WORKSPACE_ID
       description: The workspace id
     - name: pr-url
       description: PR url
@@ -87,8 +87,8 @@ spec:
             value: $(params.commit-timestamp)
           - name: pipeline-debug
             value: $(params.pipeline-debug)
-          - name: workspace-id
-            value: $(params.workspace-id)
+          - name: WORKSPACE_ID
+            value: $(params.WORKSPACE_ID)
           - name: pr-url
             value: $(params.pr-url)
           - name: target-commit-id
