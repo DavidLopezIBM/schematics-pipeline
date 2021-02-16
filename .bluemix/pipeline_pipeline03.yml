@@ -1,10 +1,10 @@
 properties:
   - type: text
     name: WORKSPACE_ID
-    value: ${WORKSPACE_ID}
+    value: us-south.workspace.Tekton-576-DL.11e5f4f1
   - type: secure
     name: apikey
-    value: ${API_KEY}
+    value: ""
 triggers:
   - type: git
     branch: main
@@ -15,7 +15,7 @@ triggers:
     properties:
       - type: secure
         name: TF_VAR_ibmcloud_api_key
-        value: ${API_KEY}
+        value: ""
       - type: text
         name: tf-dir
         value: sample

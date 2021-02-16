@@ -51,7 +51,7 @@ services:
       api_root_url: https://api.github.com
       token_url: https://otc-github-consolidated-broker.us-south.devops.cloud.ibm.com/github/token?git_id=github
     service_id: githubconsolidated
-  pipeline:
+  pipeline03:
     parameters:
       label: schematics-tekton
       type: tekton
@@ -64,7 +64,7 @@ services:
           API_KEY: "{{form.pipeline.parameters.api-key}}"
           WORKSPACE_ID: "{{form.pipeline.parameters.workspace-id}}"
         content:
-          $text: pipeline.yml
+          $text: pipeline_pipeline03.yml
       services:
         - terraform-template
         - schematics-tekton
