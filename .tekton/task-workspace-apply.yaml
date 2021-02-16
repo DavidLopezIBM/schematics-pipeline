@@ -4,8 +4,12 @@ metadata:
   name: apply-task
 spec:
   params:
-    - name: API_KEY
-      description: the ibmcloud api key
+    - name: ibmcloud-apikey-secret-key
+      description: field in the secret that contains the api key used to login to ibmcloud
+      default: apikey
+    - name: continuous-delivery-context-secret
+      description: Reference name for the secret resource
+      default: "secure-properties"
     - name: workspace-id
       description: the workspace id
   workspaces:
