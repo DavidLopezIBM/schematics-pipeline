@@ -1,0 +1,27 @@
+properties:
+  - type: text
+    name: WORKSPACE_ID
+    value: us-south.workspace.Tekton-576-DL.11e5f4f1
+  - type: secure
+    name: apikey
+    value: ""
+triggers:
+  - type: git
+    branch: main
+    events:
+      pull_request: true
+    name: Git Trigger - 0
+    eventListener: github-pr-listener
+    properties:
+      - type: secure
+        name: TF_VAR_ibmcloud_api_key
+        value: ""
+      - type: text
+        name: tf-dir
+        value: sample
+    service: ${githubconsolidated02}
+inputs:
+  - type: git
+    path: .tekton
+    branch: main
+    service: ${githubconsolidated04}

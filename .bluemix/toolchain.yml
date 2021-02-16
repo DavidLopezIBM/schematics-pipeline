@@ -1,0 +1,98 @@
+version: 2
+template:
+  name: Build your own toolchain
+  description: schematics-test-dl-tekton
+  required:
+    - githubconsolidated02
+    - githubconsolidated04
+toolchain:
+  name: schematics-test-dl-tekton
+services:
+  draservicebroker00:
+    parameters:
+      cf_controller: https://api.us-south.cf.cloud.ibm.com
+      dra_server: https://gateservice.us-south.devopsinsights.cloud.ibm.com
+      dlms_server: https://dlms.us-south.devopsinsights.cloud.ibm.com
+      dashboard_url: https://cloud.ibm.com/devops/insights/overview?toolchainId=34eaeb13-56b9-4f0d-8f3c-abc5e390310e
+      env_id: ibm:yp:us-south
+    service_id: draservicebroker
+  orion01:
+    parameters:
+      toolchain_id: 34eaeb13-56b9-4f0d-8f3c-abc5e390310e
+      dashboard_url: /devops/code/edit/edit.html#,toolchain=34eaeb13-56b9-4f0d-8f3c-abc5e390310e
+    service_id: orion
+  githubconsolidated02:
+    parameters:
+      extra_capabilities:
+        - capability_id: git.issues
+          display_name: Issues
+          dashboard_url: https://github.com/DavidLopezIBM/Terraform-IAM-Custom-Role/issues
+          label: Terraform-IAM-Custom-Role
+          tags:
+            - think
+            - code
+          enabled: false
+          readme: false
+      label: Terraform-IAM-Custom-Role
+      type: link
+      legal: false
+      git_id: github
+      blind_connection: false
+      owner_id: DavidLopezIBM
+      repo_name: Terraform-IAM-Custom-Role
+      repo_url: https://github.com/DavidLopezIBM/Terraform-IAM-Custom-Role.git
+      source_repo_url: https://github.com/DavidLopezIBM/Terraform-IAM-Custom-Role
+      private_repo: false
+      has_issues: false
+      auto_init: false
+      enable_traceability: true
+      authorized: github
+      integration_owner: IBMid-5500054RCA
+      api_root_url: https://api.github.com
+      token_url: https://otc-github-consolidated-broker.us-south.devops.cloud.ibm.com/github/token?git_id=github
+    service_id: githubconsolidated
+  pipeline03:
+    parameters:
+      label: schematics-tekton
+      type: tekton
+      name: schematics-tekton
+      ui_pipeline: true
+      configuration:
+        env:
+          githubconsolidated02: githubconsolidated02
+          githubconsolidated04: githubconsolidated04
+        content:
+          $text: pipeline_pipeline03.yml
+      services:
+        - githubconsolidated02
+        - githubconsolidated04
+    service_id: pipeline
+  githubconsolidated04:
+    parameters:
+      extra_capabilities:
+        - capability_id: git.issues
+          display_name: Issues
+          dashboard_url: https://github.com/DavidLopezIBM/schematics-tekton/issues
+          label: schematics-tekton
+          tags:
+            - think
+            - code
+          enabled: false
+          readme: false
+      label: schematics-tekton
+      type: link
+      legal: false
+      git_id: github
+      blind_connection: false
+      owner_id: DavidLopezIBM
+      repo_name: schematics-tekton
+      repo_url: https://github.com/DavidLopezIBM/schematics-tekton.git
+      private_repo: false
+      has_issues: false
+      auto_init: false
+      enable_traceability: false
+      authorized: github
+      integration_owner: IBMid-5500054RCA
+      api_root_url: https://api.github.com
+      token_url: https://otc-github-consolidated-broker.us-south.devops.cloud.ibm.com/github/token?git_id=github
+    service_id: githubconsolidated
