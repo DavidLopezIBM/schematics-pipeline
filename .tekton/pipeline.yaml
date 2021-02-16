@@ -117,8 +117,6 @@ spec:
       params:
         - name: workspace-id
           value: $(params.workspace-id)
-        - name: API_KEY
-          value: $(params.API_KEY)
     - name: plan
       runAfter: [update-workspace]
       taskRef:
@@ -129,8 +127,6 @@ spec:
       params:
         - name: workspace-id
           value: $(params.workspace-id)
-        - name: API_KEY
-          value: $(params.API_KEY)
     - name: apply
       runAfter: [plan]
       taskRef:
@@ -141,8 +137,6 @@ spec:
       params:
         - name: workspace-id
           value: $(params.workspace-id)
-        - name: API_KEY
-          value: $(params.API_KEY)
     - name: test
       runAfter: [apply]
       workspaces:
