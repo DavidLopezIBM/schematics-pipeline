@@ -1,0 +1,58 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: plan-task
+spec:
+  params:
+    - name: API_KEY
+      description: the ibmcloud api key
+    - name: workspace-id
+      description: the workspace id
+  workspaces:
+    - name: artifacts
+      mountPath: /artifacts
+  steps:
+    - name: terraform-plan
+      image: ibmcom/pipeline-base-image:2.6
+      env:
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: $(params.continuous-delivery-context-secret)
+              key: $(params.ibmcloud-apikey-secret-key)
+              optional: true
+        - name: workspace-id
+          value: $(params.workspace-id)
+      command: ["/bin/bash", "-c"]
+      args:
+        - |
+          #!/bin/bash
+          ibmcloud login --apikey $API_KEY -a "https://cloud.ibm.com" --no-region
+          # run terraform plan
+          echo "ibmcloud terraform plan --id $workspace-id"
+          ACTIVITY=$(ibmcloud terraform plan -id $workspace-id --json)
+          ACTIVITY_ID=$(echo $ACTIVITY | jq -r ".activityid")
+          echo "Activity ID   $ACTIVITY_ID"
+          # poll until status is no longer INPROGRESS, or if there is an error
+          while :
+          do
+            STATUS=$(ibmcloud terraform workspace action --id $workspace-id --act-id $ACTIVITY_ID --json)
+            
+            RET_VAL=$?
+            if [ $RET_VAL -ne 0 ]; then
+              echo $STATUS
+              exit $RET_VAL
+            else
+              STATUS_VALUE=$(echo $STATUS | jq -r ".status")
+              echo "Polling for status: $STATUS_VALUE"
+              if [ "$STATUS_VALUE" = "FAILED" ]; then 
+                ibmcloud terraform logs --id $workspace-id --act-id $ACTIVITY_ID
+                exit 1
+              elif [ "$STATUS_VALUE" != "INPROGRESS" ] && [ "$STATUS_VALUE" != "CREATED" ]; then  
+                break
+              fi
+            fi
+            # sleep for 5 seconds, while waiting for completion
+            sleep 5
+          done
+          ibmcloud terraform logs --id $workspace-id --act-id $ACTIVITY_ID

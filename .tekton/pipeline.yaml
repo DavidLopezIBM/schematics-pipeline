@@ -1,34 +1,37 @@
+---
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: pipeline
+  name: pr-pipeline
 spec:
-  workspaces:
-    - name: pipeline-ws
   params:
-    - name: API_KEY
-      description: the ibmcloud api key
-    - name: WORKSPACE_ID
-      description: the workspace id
     - name: repository
       description: the git repo
     - name: branch
       description: branch
     - name: revision
       description: the git revision/commit for the git repo
-      default: "test"
+      default: ""
+    - name: target-branch
+      description: target branch
     - name: commit-id
       description: commit id
     - name: commit-timestamp
       description: commit timestamp
     - name: pipeline-debug
       description: toggles debug mode for the pipeline
+    - name: pr-url
+      description: pr url
+    - name: target-commit-id
+      description: target branch commit id
     - name: project-id
       description: project id
       default: ""
     - name: scm-type
       description: source code type used (github, github-ent, gitlab)
-      default: "github"
+    - name: ibmcloud-api
+      description: the ibmcloud api
+      default: https://cloud.ibm.com
     - name: tf-dir
       description: the directory where the terraform main entry file is found
       default: ""
@@ -38,6 +41,10 @@ spec:
     - name: tf-var-file
       description: (optional) terraform var-file
       default: ""
+    - name: workspace-id
+      description: workspace id
+  workspaces:
+    - name: artifacts
   tasks:
     - name: extract-repository-url
       taskRef:
@@ -54,8 +61,8 @@ spec:
       params:
         - name: continuous-delivery-context-secret
           value: "secure-properties"
-        - name: API_KEY
-          value: $(params.API_KEY)
+        - name: ibmcloud-apikey-secret-key
+          value: "apikey"
         - name: repository
           value: $(tasks.extract-repository-url.results.extracted-value)
         - name: branch
@@ -64,30 +71,26 @@ spec:
           value: $(params.revision)
         - name: pipeline-debug
           value: $(params.pipeline-debug)
+        - name: ibmcloud-api
+          value: $(params.ibmcloud-api)
       workspaces:
-        - name: task-ws
-          workspace: pipeline-ws
+        - name: output
+          workspace: artifacts
     - name: cra-terraform-scan
-      when:
-        - input: "$(params.tf-dir)"
-          operator: notin
-          values: [""]
       runAfter:
         - cra-fetch-repo
       taskRef:
         name: cra-terraform-scan
       workspaces:
-        - name: task-ws
-          workspace: pipeline-ws
+        - name: artifacts
+          workspace: artifacts
         - name: secrets
-          workspace: pipeline-ws
+          workspace: artifacts
       params:
         - name: repository
           value: $(tasks.extract-repository-url.results.extracted-value)
         - name: revision
-          value: "test"
-        - name: API_KEY
-          value: $(params.API_KEY)
+          value: $(params.commit-id)
         - name: scm-type
           value: $(params.scm-type)
         - name: project-id
@@ -100,6 +103,8 @@ spec:
           value: $(params.tf-dir)
         - name: policy-config-json
           value: $(params.policy-config-json)
+        - name: pr-url
+          value: $(params.pr-url)
         - name: tf-var-file
           value: $(params.tf-var-file)
     - name: update-workspace
@@ -107,11 +112,11 @@ spec:
       taskRef:
         name: update-workspace-task
       workspaces:
-        - name: task-ws
-          workspace: pipeline-ws
+        - name: artifacts
+          workspace: artifacts
       params:
-        - name: WORKSPACE_ID
-          value: $(params.WORKSPACE_ID)
+        - name: workspace-id
+          value: $(params.workspace-id)
         - name: API_KEY
           value: $(params.API_KEY)
     - name: plan
@@ -119,11 +124,11 @@ spec:
       taskRef:
         name: plan-task
       workspaces:
-        - name: task-ws
-          workspace: pipeline-ws
+        - name: artifacts
+          workspace: artifacts
       params:
-        - name: WORKSPACE_ID
-          value: $(params.WORKSPACE_ID)
+        - name: workspace-id
+          value: $(params.workspace-id)
         - name: API_KEY
           value: $(params.API_KEY)
     - name: apply
@@ -131,17 +136,17 @@ spec:
       taskRef:
         name: apply-task
       workspaces:
-        - name: task-ws
-          workspace: pipeline-ws
+        - name: artifacts
+          workspace: artifacts
       params:
-        - name: WORKSPACE_ID
-          value: $(params.WORKSPACE_ID)
+        - name: workspace-id
+          value: $(params.workspace-id)
         - name: API_KEY
           value: $(params.API_KEY)
     - name: test
       runAfter: [apply]
       workspaces:
-        - name: task-ws
-          workspace: pipeline-ws
+        - name: artifacts
+          workspace: artifacts
       taskRef:
         name: test-task
