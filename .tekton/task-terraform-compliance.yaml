@@ -137,8 +137,6 @@ spec:
             exit 1
           fi
 
-          export TF_VAR_ibmcloud_api_key = $API_KEY
-
           echo "Running terraform compliance task"                    
           if [[ $PIPELINE_DEBUG == 1 ]];
             then
