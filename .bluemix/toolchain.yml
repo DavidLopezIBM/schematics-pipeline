@@ -4,7 +4,7 @@ template:
   description: "Prototype toolchain templates for IBM Cloud Schematics "
   required:
     - terraform-template
-    - schematics-tekton
+    - schematics-tekton-pipeline
   info:
     #original static git url and branch string definitions
     #git url: >-
