@@ -70,34 +70,18 @@ services:
         - schematics-tekton
     service_id: pipeline
   schematics-tekton:
+    service_id: github_integrated
     parameters:
-      extra_capabilities:
-        - capability_id: git.issues
-          display_name: Issues
-          dashboard_url: https://github.com/DavidLopezIBM/schematics-tekton/issues
-          label: schematics-tekton
-          tags:
-            - think
-            - code
-          enabled: false
-          readme: false
-      label: schematics-tekton
-      type: link
-      legal: false
-      git_id: github
-      blind_connection: false
-      owner_id: DavidLopezIBM
-      repo_name: schematics-tekton
-      repo_url: https://github.com/DavidLopezIBM/schematics-tekton.git
-      private_repo: false
+      repo_name: "schematics-tekton"
+      repo_url: >
+        $env.pipeline_repo ? $env.pipeline_repo : $env.pipelineRepo ? '{{pipelineRepo}}' : 'https://github.com/DavidLopezIBM/schematics-tekton'
+      source_repo_url: >
+        $env.pipeline_repo ? $env.pipeline_repo : $env.pipelineRepo ? '{{pipelineRepo}}' : 'https://github.com/DavidLopezIBM/schematics-tekton'
+      type: $env.type || 'link'
       has_issues: false
-      auto_init: false
       enable_traceability: false
-      authorized: github
-      integration_owner: IBMid-5500054RCA
-      api_root_url: https://api.github.com
-      token_url: https://otc-github-consolidated-broker.us-south.devops.cloud.ibm.com/github/token?git_id=github
-    service_id: githubconsolidated
+      legal: true
+      kind: ["pipeline"]
 form:
   pipeline:
     parameters:
