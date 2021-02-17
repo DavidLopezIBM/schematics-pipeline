@@ -24,6 +24,13 @@ template:
 toolchain:
   name: "schematics-tekton-{{timestamp}}"
 services:
+  devops-insights:
+    parameters:
+      cf_controller: https://api.us-south.cf.cloud.ibm.com
+      dra_server: https://gateservice.us-south.devopsinsights.cloud.ibm.com
+      dlms_server: https://dlms.us-south.devopsinsights.cloud.ibm.com
+      env_id: ibm:yp:us-south
+    service_id: draservicebroker
   orion:
     service_id: orion
   terraform-template:
