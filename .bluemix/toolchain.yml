@@ -4,7 +4,7 @@ template:
   description: "Prototype toolchain templates for IBM Cloud Schematics "
   required:
     - terraform-template
-    - schematics-tekton-pipeline
+    - schematics-tekton
   info:
     #original static git url and branch string definitions
     #git url: >-
@@ -24,6 +24,13 @@ template:
 toolchain:
   name: "schematics-tekton-{{timestamp}}"
 services:
+  draservicebroker00:
+    parameters:
+      cf_controller: https://api.us-south.cf.cloud.ibm.com
+      dra_server: https://gateservice.us-south.devopsinsights.cloud.ibm.com
+      dlms_server: https://dlms.us-south.devopsinsights.cloud.ibm.com
+      env_id: ibm:yp:us-south
+    service_id: draservicebroker
   orion:
     service_id: orion
   terraform-template:
@@ -43,6 +50,7 @@ services:
       legal: false
       git_id: github
       blind_connection: false
+      owner_id: DavidLopezIBM
       repo_name: Terraform-IAM-Custom-Role
       repo_url: https://github.com/DavidLopezIBM/Terraform-IAM-Custom-Role.git
       source_repo_url: https://github.com/DavidLopezIBM/Terraform-IAM-Custom-Role
@@ -51,10 +59,11 @@ services:
       auto_init: false
       enable_traceability: true
       authorized: github
+      integration_owner: IBMid-5500054RCA
       api_root_url: https://api.github.com
       token_url: https://otc-github-consolidated-broker.us-south.devops.cloud.ibm.com/github/token?git_id=github
     service_id: githubconsolidated
-  schematics-tekton-pipeline:
+  pipeline03:
     parameters:
       label: schematics-tekton
       name: schematics-tekton
@@ -66,7 +75,7 @@ services:
           API_KEY: "{{form.pipeline.parameters.api-key}}"
           WORKSPACE_ID: "{{form.pipeline.parameters.workspace-id}}"
         content:
-          $text: schematics-tekton-pipeline.yml
+          $text: pipeline_pipeline03.yml
       services:
         - terraform-template
         - schematics-tekton
