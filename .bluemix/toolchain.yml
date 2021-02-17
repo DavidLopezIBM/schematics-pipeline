@@ -70,7 +70,7 @@ services:
         - schematics-tekton
     service_id: pipeline
   schematics-tekton:
-    service_id: github_integrated
+    service_id: githubconsolidated
     parameters:
       repo_name: "schematics-tekton"
       repo_url: >
