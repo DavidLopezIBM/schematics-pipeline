@@ -62,8 +62,6 @@ spec:
           value: $(params.revision)
         - name: pipeline-debug
           value: $(params.pipeline-debug)
-        - name: ibmcloud-api
-          value: $(params.ibmcloud-api)
       workspaces:
         - name: output
           workspace: artifacts
@@ -94,8 +92,6 @@ spec:
           value: $(params.tf-dir)
         - name: policy-config-json
           value: $(params.policy-config-json)
-        - name: pr-url
-          value: $(params.pr-url)
         - name: tf-var-file
           value: $(params.tf-var-file)
     - name: update-workspace
