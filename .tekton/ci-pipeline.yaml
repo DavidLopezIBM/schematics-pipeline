@@ -79,7 +79,7 @@ spec:
         - name: repository
           value: $(tasks.extract-repository-url.results.extracted-value)
         - name: revision
-          value: $(params.commit-id)
+          value: $(tasks.cra-fetch-repo.results.git-commit)
         - name: scm-type
           value: $(params.scm-type)
         - name: project-id
