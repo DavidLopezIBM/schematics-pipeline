@@ -13,10 +13,10 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: eventlistener-git-trigger-manual
+  name: git-trigger-listener
 spec:
   triggers:
     - binding:
-        name: triggerbinding-git-trigger-manual
+        name: github-trigger-manual
       template:
         name: ci-template
