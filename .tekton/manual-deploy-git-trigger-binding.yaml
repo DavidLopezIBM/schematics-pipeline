@@ -9,5 +9,7 @@ spec:
       value: $(params.repositoryForManualTrigger)
     - name: branch
       value: $(params.branchForManualTrigger)
+    - name: revision
+      value: $(params.branchForManualTrigger)
     - name: scm-type
       value: "github"
