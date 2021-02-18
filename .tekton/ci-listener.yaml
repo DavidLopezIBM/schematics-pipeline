@@ -9,14 +9,3 @@ spec:
         - name: github-ci-binding
       template:
         name: ci-template
----
-apiVersion: tekton.dev/v1beta1
-kind: EventListener
-metadata:
-  name: git-trigger-listener
-spec:
-  triggers:
-    - binding:
-        name: github-trigger-manual
-      template:
-        name: ci-template

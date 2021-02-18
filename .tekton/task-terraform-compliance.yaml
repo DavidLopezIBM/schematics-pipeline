@@ -204,6 +204,10 @@ spec:
           # doing the export rather than env definition is a workaround
           # until https://github.com/tektoncd/pipeline/issues/1836 is fixed
           export HOME="/root"
+          TF_VAR_ibmcloud_api_key= "$(API_KEY)" 
+
+          echo "added api key @ ${TF_VAR_ibmcloud_api_key}"
+
           ##########################################################################
           if [[ "$REPOSITORY" != *.git ]]; then
             echo "Adding .git suffix to Repository URL"
