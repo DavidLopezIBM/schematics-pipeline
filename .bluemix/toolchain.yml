@@ -38,7 +38,6 @@ services:
       extra_capabilities:
         - capability_id: git.issues
           display_name: Issues
-          dashboard_url: https://github.com/DavidLopezIBM/Terraform-IAM-Custom-Role/issues
           label: Terraform-IAM-Custom-Role
           tags:
             - think
@@ -61,11 +60,11 @@ services:
       api_root_url: https://api.github.com
       token_url: https://otc-github-consolidated-broker.us-south.devops.cloud.ibm.com/github/token?git_id=github
     service_id: githubconsolidated
-  tekton-pipeline:
+  tekton-pr-pipeline:
     parameters:
       label: schematics-tekton
       type: tekton
-      name: schematics-tekton
+      name: schematics-pr
       ui_pipeline: true
       configuration:
         env:
@@ -74,7 +73,27 @@ services:
           API_KEY: "{{form.pipeline.parameters.api-key}}"
           WORKSPACE_ID: "{{form.pipeline.parameters.workspace-id}}"
         content:
-          $text: pipeline.yml
+          $text: pipeline-pr.yml
+      services:
+        - terraform-template
+        - schematics-tekton
+    service_id: pipeline
+  tekton-deploy-pipeline:
+    parameters:
+      label: schematics-tekton
+      type: tekton
+      name: schematics-deploy
+      ui_pipeline: true
+      configuration:
+        env:
+          terraform-template: terraform-template
+          schematics-tekton: schematics-tekton
+          API_KEY: "{{form.pipeline.parameters.api-key}}"
+          WORKSPACE_ID: "{{form.pipeline.parameters.workspace-id}}"
+          BRANCH: "refs/heads/main"
+          REPOSITORY: "{{services.terraform-template.parameters.repo.source_repo_url}}"
+        content:
+          $text: pipeline-deploy.yml
       services:
         - terraform-template
         - schematics-tekton
