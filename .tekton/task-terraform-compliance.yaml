@@ -96,7 +96,7 @@ spec:
             set -x +e           
           fi
 
-          export TF_VAR_ibmcloud_api_key= $API_KEY
+          export TF_VAR_ibmcloud_api_key=$API_KEY
 
           REPO_DIR_PATH="/artifacts/$(params.directory-name)"
           TOOLCHAIN_CONFIG=$(cat /config/toolchain.json)
@@ -207,7 +207,6 @@ spec:
           # doing the export rather than env definition is a workaround
           # until https://github.com/tektoncd/pipeline/issues/1836 is fixed
           export HOME="/root"
-          export TF_VAR_ibmcloud_api_key= $API_KEY
 
           ##########################################################################
           if [[ "$REPOSITORY" != *.git ]]; then
