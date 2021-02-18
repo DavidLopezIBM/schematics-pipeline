@@ -2,12 +2,12 @@
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
 metadata:
-  name: triggerbinding-git-trigger-manual
+  name: github-trigger-manual
 spec:
   params:
     - name: repository
       value: $(params.repositoryForManualTrigger)
     - name: branch
-      value: "master"
-    - name: triggerName
-      value: manual-trigger
+      value: $(params.branchForManualTrigger)
+    - name: scm-type
+      value: "github"
