@@ -83,6 +83,7 @@ services:
         env:
           terraform-template: terraform-template
           schematics-tekton: schematics-tekton
+          tekton-catalog: tekton-catalog
           API_KEY: "{{form.pipeline.parameters.api-key}}"
         content:
           $text: pipeline-pr.yml
@@ -101,6 +102,7 @@ services:
         env:
           terraform-template: terraform-template
           schematics-tekton: schematics-tekton
+          tekton-catalog: tekton-catalog
           API_KEY: "{{form.pipeline.parameters.api-key}}"
           WORKSPACE_ID: "{{form.pipeline.parameters.workspace-id}}"
           BRANCH: "refs/heads/main"
