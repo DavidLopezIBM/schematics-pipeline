@@ -35,31 +35,46 @@ services:
     service_id: orion
   terraform-template:
     parameters:
-      extra_capabilities:
-        - capability_id: git.issues
-          display_name: Issues
-          label: Terraform-IAM-Custom-Role
-          tags:
-            - think
-            - code
-          enabled: false
-          readme: false
-      label: Terraform-IAM-Custom-Role
-      type: link
-      legal: false
-      git_id: github
-      blind_connection: false
-      repo_name: Terraform-IAM-Custom-Role
-      repo_url: https://github.com/DavidLopezIBM/Terraform-IAM-Custom-Role.git
-      source_repo_url: https://github.com/DavidLopezIBM/Terraform-IAM-Custom-Role
-      private_repo: false
-      has_issues: false
-      auto_init: false
+      service_id: >
+      $env.source_provider ? $env.source_provider : 'hostedgit'
+    parameters:
+      repo_name: "terraform-ibm-iam-{{timestamp}}"
+      repo_url: >
+        $env.type === 'link' ?
+          $env.app_repo : 'https://github.com/terraform-ibm-modules/terraform-ibm-iam'
+      source_repo_url: >
+        $env.type === 'fork' || $env.type === 'clone' ?
+          $env.app_repo : 'https://github.com/terraform-ibm-modules/terraform-ibm-iam'
+      type: $env.type || 'clone'
+      has_issues: true
       enable_traceability: true
-      authorized: github
-      api_root_url: https://api.github.com
-      token_url: https://otc-github-consolidated-broker.us-south.devops.cloud.ibm.com/github/token?git_id=github
+      legal: true
+  schematics-tekton:
     service_id: githubconsolidated
+    parameters:
+      repo_name: "schematics-tekton"
+      repo_url: >
+        $env.pipeline_repo ? $env.pipeline_repo : $env.pipelineRepo ? '{{pipelineRepo}}' : 'https://github.com/DavidLopezIBM/schematics-tekton'
+      source_repo_url: >
+        $env.pipeline_repo ? $env.pipeline_repo : $env.pipelineRepo ? '{{pipelineRepo}}' : 'https://github.com/DavidLopezIBM/schematics-tekton'
+      type: $env.type || 'link'
+      has_issues: false
+      enable_traceability: false
+      legal: true
+      kind: ["pipeline"]
+  tekton-catalog:
+    service_id: githubconsolidated
+    parameters:
+      repo_name: "tekton-catalog"
+      repo_url: >
+        $env.pipeline_repo ? $env.pipeline_repo : $env.pipelineRepo ? '{{pipelineRepo}}' : 'https://github.com/open-toolchain/tekton-catalog'
+      source_repo_url: >
+        $env.pipeline_repo ? $env.pipeline_repo : $env.pipelineRepo ? '{{pipelineRepo}}' : 'https://github.com/open-toolchain/tekton-catalog'
+      type: $env.type || 'link'
+      has_issues: false
+      enable_traceability: false
+      legal: true
+      kind: ["pipeline"]
   tekton-pr-pipeline:
     parameters:
       label: schematics-tekton
@@ -71,12 +86,12 @@ services:
           terraform-template: terraform-template
           schematics-tekton: schematics-tekton
           API_KEY: "{{form.pipeline.parameters.api-key}}"
-          WORKSPACE_ID: "{{form.pipeline.parameters.workspace-id}}"
         content:
           $text: pipeline-pr.yml
       services:
         - terraform-template
         - schematics-tekton
+        - tekton-catalog
     service_id: pipeline
   tekton-deploy-pipeline:
     parameters:
@@ -97,20 +112,8 @@ services:
       services:
         - terraform-template
         - schematics-tekton
+        - tekton-catalog
     service_id: pipeline
-  schematics-tekton:
-    service_id: githubconsolidated
-    parameters:
-      repo_name: "schematics-tekton"
-      repo_url: >
-        $env.pipeline_repo ? $env.pipeline_repo : $env.pipelineRepo ? '{{pipelineRepo}}' : 'https://github.com/DavidLopezIBM/schematics-tekton'
-      source_repo_url: >
-        $env.pipeline_repo ? $env.pipeline_repo : $env.pipelineRepo ? '{{pipelineRepo}}' : 'https://github.com/DavidLopezIBM/schematics-tekton'
-      type: $env.type || 'link'
-      has_issues: false
-      enable_traceability: false
-      legal: true
-      kind: ["pipeline"]
 form:
   pipeline:
     parameters:
