@@ -44,7 +44,7 @@ spec:
               # if the value exists as an env var, update the workspace
               if [ -n "${!KEY}" ]; then
                   echo "$KEY found with value '${!KEY}'"; 
-                  SEARCH=$(echo $WORKSPACE | jq ".template_data[0].variablestore[].name")
+                  SEARCH=$(echo $WORKSPACE | jq '".template_data[0].variablestore[].name"')
                   
                   if [[ "$SEARCH" =~ .*"$KEY".* ]]; then
                       #echo "It's there, update it."
@@ -54,7 +54,7 @@ spec:
                           '.template_data[0].variablestore = [.template_data[0].variablestore[] | if (.name == $updateKey) then (.value = $updateVal) else . end]' )
                   else 
                       #echo "It's NOT there, add it."
-                      WORKSPACE=$(echo $WORKSPACE | jq -r ".template_data[0].variablestore[.template_data[0].variablestore| length] |= . + { \"name\": \"$KEY\", \"value\": \"${!KEY}\", \"type\": \"string\" }")
+                      WORKSPACE=$(echo $WORKSPACE | jq -r '".template_data[0].variablestore[.template_data[0].variablestore| length] |= . + { \"name\": \"$KEY\", \"value\": \"${!KEY}\", \"type\": \"string\" }"')
                       
                   fi
               fi
