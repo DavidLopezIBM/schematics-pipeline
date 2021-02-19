@@ -10,7 +10,7 @@ properties:
     value: ${BRANCH}
   - type: text
     name: repositoryForManualTrigger
-    value: ${REPOSITORY}
+    value: ""
 triggers:
   - type: manual
     name: Manual Trigger - 0
@@ -18,7 +18,7 @@ triggers:
     properties:
       - type: text
         name: tf-dir
-        value: examples/custom-role
+        value: sample
 inputs:
   - type: git
     path: .tekton

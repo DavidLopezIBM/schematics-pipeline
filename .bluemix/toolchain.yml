@@ -39,10 +39,10 @@ services:
       repo_name: "terraform-ibm-iam-{{timestamp}}"
       repo_url: >
         $env.type === 'link' ?
-          $env.app_repo : 'https://github.com/terraform-ibm-modules/terraform-ibm-iam'
+          $env.app_repo : 'https://github.com/DavidLopezIBM/Terraform-IAM-Custom-Role'
       source_repo_url: >
         $env.type === 'fork' || $env.type === 'clone' ?
-          $env.app_repo : 'https://github.com/terraform-ibm-modules/terraform-ibm-iam'
+          $env.app_repo : 'https://github.com/DavidLopezIBM/Terraform-IAM-Custom-Role'
       type: $env.type || 'clone'
       has_issues: true
       enable_traceability: true
