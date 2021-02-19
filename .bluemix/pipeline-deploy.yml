@@ -18,7 +18,7 @@ triggers:
     properties:
       - type: text
         name: tf-dir
-        value: sample
+        value: examples/custom-role
 inputs:
   - type: git
     path: .tekton
