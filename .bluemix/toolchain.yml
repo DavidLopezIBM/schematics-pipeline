@@ -34,8 +34,7 @@ services:
   orion:
     service_id: orion
   terraform-template:
-    parameters:
-      service_id: >
+    service_id: >
       $env.source_provider ? $env.source_provider : 'hostedgit'
     parameters:
       repo_name: "terraform-ibm-iam-{{timestamp}}"
