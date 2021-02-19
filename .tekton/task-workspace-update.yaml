@@ -38,22 +38,22 @@ spec:
           WORKSPACE=$(ibmcloud terraform workspace get -i $WORKSPACE_ID --json)
           echo "Updating Schematics workspace from environment variables..."
           # iterate over ALL schematics worskpace variables to see if there is a matching env var
-          for KEY in $(echo $WORKSPACE | jq ".template_data[0].values_metadata[].name" -r); do
-              
+          for KEY in $(echo '$WORKSPACE' | jq ".template_data[0].values_metadata[].name" -r); do
+              echo "in here"
               # if the value exists as an env var, update the workspace
               if [ -n "${!KEY}" ]; then
                   echo "$KEY found with value '${!KEY}'"; 
-                  SEARCH=$(echo $WORKSPACE | jq ".template_data[0].variablestore[].name")
+                  SEARCH=$(echo '$WORKSPACE' | jq ".template_data[0].variablestore[].name")
                   
                   if [[ "$SEARCH" =~ .*"$KEY".* ]]; then
                       #echo "It's there, update it."
-                      WORKSPACE=$(echo $WORKSPACE | jq -r \
+                      WORKSPACE=$(echo '$WORKSPACE' | jq -r \
                           --arg updateKey "$KEY" \
                           --arg updateVal "${!KEY}" \
                           '.template_data[0].variablestore = [.template_data[0].variablestore[] | if (.name == $updateKey) then (.value = $updateVal) else . end]' )
                   else 
                       #echo "It's NOT there, add it."
-                      WORKSPACE=$(echo $WORKSPACE | jq -r ".template_data[0].variablestore[.template_data[0].variablestore| length] |= . + { \"name\": \"$KEY\", \"value\": \"${!KEY}\", \"type\": \"string\" }")
+                      WORKSPACE=$(echo '$WORKSPACE' | jq -r ".template_data[0].variablestore[.template_data[0].variablestore| length] |= . + { \"name\": \"$KEY\", \"value\": \"${!KEY}\", \"type\": \"string\" }")
                       
                   fi
               fi
