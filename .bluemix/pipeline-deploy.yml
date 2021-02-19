@@ -19,6 +19,9 @@ triggers:
       - type: text
         name: tf-dir
         value: sample
+      - type: secure
+        name: TF_VAR_ibmcloud_api_key
+        value: ${API_KEY}
 inputs:
   - type: git
     path: .tekton
