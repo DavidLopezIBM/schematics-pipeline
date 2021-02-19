@@ -22,7 +22,7 @@ triggers:
 inputs:
   - type: git
     path: .tekton
-    branch: main
+    branch: master
     service: ${schematics-tekton}
   - type: git
     path: cra
