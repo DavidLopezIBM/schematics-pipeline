@@ -105,8 +105,6 @@ services:
           tekton-catalog: tekton-catalog
           API_KEY: "{{form.pipeline.parameters.api-key}}"
           WORKSPACE_ID: "{{form.pipeline.parameters.workspace-id}}"
-          BRANCH: "refs/heads/main"
-          REPOSITORY: "{{services.terraform-template.parameters.source_repo_url}}"
         content:
           $text: pipeline-deploy.yml
       services:

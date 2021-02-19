@@ -6,6 +6,6 @@ metadata:
 spec:
   triggers:
     - binding:
-        name: gitlab-trigger-manual
+        name: manual-trigger-binding
       template:
         name: manual-template
