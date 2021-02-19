@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
 metadata:
-  name: github-trigger-manual
+  name: gitlab-trigger-manual
 spec:
   params:
     - name: repository
@@ -10,4 +10,4 @@ spec:
     - name: branch
       value: $(params.branchForManualTrigger)
     - name: scm-type
-      value: "github"
+      value: "gitlab"

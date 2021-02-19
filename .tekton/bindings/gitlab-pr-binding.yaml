@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
 metadata:
-  name: github-pr-binding
+  name: gitlab-pr-binding
 spec:
   params:
     - name: branch
@@ -24,4 +24,4 @@ spec:
     - name: repository
       value: $(event.repository.html_url)
     - name: scm-type
-      value: "github"
+      value: "gitlab"

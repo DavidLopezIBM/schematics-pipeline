@@ -11,7 +11,7 @@ triggers:
     events:
       pull_request: true
     name: Git Trigger - 0
-    eventListener: github-pr-listener
+    eventListener: gitlab-pr-listener
     properties:
       - type: secure
         name: TF_VAR_ibmcloud_api_key
