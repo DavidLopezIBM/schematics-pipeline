@@ -38,11 +38,6 @@ spec:
           WORKSPACE=$(ibmcloud terraform workspace get -i $WORKSPACE_ID --json)
           echo "Updating Schematics workspace from environment variables..."
           # iterate over ALL schematics worskpace variables to see if there is a matching env var
-          echo "Workspace: $WORKSPACE"
-
-          echo "testing"
-
-
 
           if jq -e . >/dev/null 2>&1 <<<"$WORKSPACE"; then
               echo "$WORKSPACE" > "temp.json"
@@ -50,6 +45,7 @@ spec:
               echo "$WORKSPACE | head -n -1" > "temp.json"
           fi
 
+          cat temp.json
 
           for KEY in $(cat temp.json | jq ".template_data[0].values_metadata[].name" -r); do
               
@@ -71,7 +67,8 @@ spec:
                   fi
               fi
           done
-          echo "temp.json" > "workspace.json"
+
+          cp temp.json workspace.json
 
           cat workspace.json
           ibmcloud terraform workspace update --id $WORKSPACE_ID --file workspace.json
