@@ -45,8 +45,6 @@ spec:
               echo "$WORKSPACE" | head -n -1 > "temp.json"
           fi
 
-          cat temp.json
-
           for KEY in $(cat temp.json | jq ".template_data[0].values_metadata[].name" -r); do
               
               # if the value exists as an env var, update the workspace
@@ -69,14 +67,10 @@ spec:
           done
 
           cp temp.json workspace.json
-
-          cat workspace.json
           ibmcloud terraform workspace update --id $WORKSPACE_ID --file workspace.json
 
-          echo "step after"
           # cleanup
           rm -f workspace.json
 
-          echo "last step"
           sleep 10
           unset WORKSPACE
