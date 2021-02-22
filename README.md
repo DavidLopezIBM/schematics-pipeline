@@ -4,12 +4,9 @@ This repo contains an Tekton template for automating workflow with [IBM Cloud Sc
 
 ## Getting Started
 1.  First, [create an IBM Cloud Schematics workspace](https://cloud.ibm.com/schematics/workspaces/create)
-2. Once the Workspace is created, go to the  "Settings" tab and click the "Enable continuous delivery" button.
+2. Once the Workspace is created, click -> [![Deploy To IBM Cloud](https://console.bluemix.net/devops/graphics/create_toolchain_button.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https://github.com/DavidLopezIBM/schematics-tekton&env_id=ibm:yp:us-south) .
 3. Complete the toolchain setup form and click "Create" to create a toolchain.
 4. Return to the workspace created, and import newly created Terraform Template git repo.
-
-### To get started, click this button:
-[![Deploy To IBM Cloud](https://console.bluemix.net/devops/graphics/create_toolchain_button.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https://github.com/DavidLopezIBM/schematics-tekton&env_id=ibm:yp:us-south)
 
 ## Pipeline Details
 
