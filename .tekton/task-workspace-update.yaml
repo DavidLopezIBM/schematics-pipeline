@@ -42,12 +42,12 @@ spec:
 
           echo "testing"
 
-          echo "$WORKSPACE" > "temp.json"
+
 
           if jq -e . >/dev/null 2>&1 <<<"$WORKSPACE"; then
-              echo "Parsed JSON successfully and got something other than false/null"
+              echo "$WORKSPACE" > "temp.json"
           else
-              echo "Failed to parse JSON, or got false/null"
+              echo "$WORKSPACE | head -n -1" > "temp.json"
           fi
 
 
@@ -71,7 +71,7 @@ spec:
                   fi
               fi
           done
-          echo "$WORKSPACE" > "workspace.json"
+          echo "temp.json" > "workspace.json"
 
           cat workspace.json
           ibmcloud terraform workspace update --id $WORKSPACE_ID --file workspace.json
