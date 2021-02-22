@@ -44,6 +44,13 @@ spec:
 
           echo "$WORKSPACE" > "temp.json"
 
+          if jq -e . >/dev/null 2>&1 <<<"$WORKSPACE"; then
+              echo "Parsed JSON successfully and got something other than false/null"
+          else
+              echo "Failed to parse JSON, or got false/null"
+          fi
+
+
           for KEY in $(cat temp.json | jq ".template_data[0].values_metadata[].name" -r); do
               
               # if the value exists as an env var, update the workspace
