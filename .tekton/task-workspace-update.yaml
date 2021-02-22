@@ -42,7 +42,7 @@ spec:
           if jq -e . >/dev/null 2>&1 <<<"$WORKSPACE"; then
               echo "$WORKSPACE" > "temp.json"
           else
-              echo "$WORKSPACE | head -n -1" > "temp.json"
+              echo "$WORKSPACE" | head -n -1 > "temp.json"
           fi
 
           cat temp.json
