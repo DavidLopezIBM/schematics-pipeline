@@ -17,7 +17,7 @@ spec:
       mountPath: /artifacts
   steps:
     - name: update-workspace
-      image: icr.io/continuous-delivery/cra-terraform:release.1480
+      image: ibmcom/pipeline-base-image:2.6
       envFrom:
         - configMapRef:
             name: environment-properties
