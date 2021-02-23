@@ -55,7 +55,7 @@ spec:
               # if the value exists as an env var, update the workspace
               if [ -n "${!KEY}" ]; then
                   echo "$KEY found with value '${!KEY}'"; 
-                  SEARCH=$(cat temp.json | jq ".template_data[0].variablestore[].name")
+                  SEARCH=$(cat temp.json | jq ".template_data[0].variablestore[]?.name")
                   
                   if [[ "$SEARCH" =~ .*"$KEY".* ]]; then
                       echo "It's there, update it."
