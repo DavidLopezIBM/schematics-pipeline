@@ -13,4 +13,4 @@ inputs:
   - type: git
     path: .tekton
     branch: master
-    service: ${schematics-tekton}
+    service: ${schematics-pipeline}

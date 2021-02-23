@@ -21,7 +21,7 @@ inputs:
   - type: git
     path: .tekton
     branch: master
-    service: ${schematics-tekton}
+    service: ${schematics-pipeline}
   - type: git
     path: cra
     branch: master

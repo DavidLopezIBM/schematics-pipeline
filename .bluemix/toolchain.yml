@@ -22,15 +22,11 @@ template:
         '[' + $env.branch + ']('+ $env.repository + '/tree/' + $env.branch + ')' :
         '[master]('+ $env.repository + '/tree/master)'
 toolchain:
-  name: "schematics-tekton-{{timestamp}}"
+  name: "schematics-pipeline-{{timestamp}}"
 services:
-  draservicebroker00:
-    parameters:
-      cf_controller: https://api.us-south.cf.cloud.ibm.com
-      dra_server: https://gateservice.us-south.devopsinsights.cloud.ibm.com
-      dlms_server: https://dlms.us-south.devopsinsights.cloud.ibm.com
-      env_id: ibm:yp:us-south
-    service_id: draservicebroker
+  devops-insights:
+    service_id: >
+      $env.env_id === 'ibm:yp:us-south' ? 'draservicebroker' : ''
   orion:
     service_id: orion
   terraform-template:
@@ -47,10 +43,10 @@ services:
       has_issues: true
       enable_traceability: true
       legal: true
-  schematics-tekton:
+  schematics-pipeline:
     service_id: githubconsolidated
     parameters:
-      repo_name: "schematics-tekton"
+      repo_name: "schematics-pipeline"
       repo_url: >
         $env.pipeline_repo ? $env.pipeline_repo : $env.pipelineRepo ? '{{pipelineRepo}}' : 'https://github.com/DavidLopezIBM/schematics-tekton'
       source_repo_url: >
@@ -75,33 +71,34 @@ services:
       kind: ["pipeline"]
   tekton-pr-pipeline:
     parameters:
-      label: schematics-tekton
+      label: schematics-pipeline
       type: tekton
       name: schematics-pr
       ui_pipeline: true
       configuration:
         env:
           terraform-template: terraform-template
-          schematics-tekton: schematics-tekton
+          schematics-pipeline: schematics-pipeline
           tekton-catalog: tekton-catalog
           API_KEY: "{{form.pipeline.parameters.api-key}}"
         content:
           $text: pipeline-pr.yml
       services:
         - terraform-template
-        - schematics-tekton
+        - schematics-pipeline
         - tekton-catalog
-    service_id: pipeline
+    service_id: >
+      $env.env_id === 'ibm:yp:us-south' ? 'pipeline' : ''
   tekton-deploy-pipeline:
     parameters:
-      label: schematics-tekton
+      label: schematics-pipeline
       type: tekton
       name: schematics-deploy
       ui_pipeline: true
       configuration:
         env:
           terraform-template: terraform-template
-          schematics-tekton: schematics-tekton
+          schematics-pipeline: schematics-pipeline
           tekton-catalog: tekton-catalog
           API_KEY: "{{form.pipeline.parameters.api-key}}"
           WORKSPACE_ID: "{{form.pipeline.parameters.workspace-id}}"
@@ -109,7 +106,7 @@ services:
           $text: pipeline-deploy.yml
       services:
         - terraform-template
-        - schematics-tekton
+        - schematics-pipeline
         - tekton-catalog
     service_id: pipeline
 form:
