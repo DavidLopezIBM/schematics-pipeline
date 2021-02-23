@@ -44,14 +44,16 @@ services:
       enable_traceability: true
       legal: true
   schematics-pipeline:
-    service_id: githubconsolidated
+    service_id: hostedgit
     parameters:
       repo_name: "schematics-pipeline"
       repo_url: >
-        $env.pipeline_repo ? $env.pipeline_repo : $env.pipelineRepo ? '{{pipelineRepo}}' : 'https://github.com/DavidLopezIBM/schematics-tekton'
+        $env.type === 'link' ?
+          $env.pipeline_repo : 'https://github.com/DavidLopezIBM/schematics-tekton'
       source_repo_url: >
-        $env.pipeline_repo ? $env.pipeline_repo : $env.pipelineRepo ? '{{pipelineRepo}}' : 'https://github.com/DavidLopezIBM/schematics-tekton'
-      type: $env.type || 'link'
+        $env.type === 'fork' || $env.type === 'clone' ?
+          $env.pipeline_repo : 'https://github.com/DavidLopezIBM/schematics-tekton'
+      type: $env.type || 'clone'
       has_issues: false
       enable_traceability: false
       legal: true
