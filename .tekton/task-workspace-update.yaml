@@ -39,7 +39,7 @@ spec:
           echo "Workspace $WORKSPACE_ID"
 
           REGION="--no-region"
-      # only parse the region if its the *NEW* workspace id format
+          # only parse the region if its the *NEW* workspace id format
           if [[ "$WORKSPACE_ID" == *".workspace"* ]]; then
               REGION=" -r $(echo $WORKSPACE_ID | cut -f1 -d.)"
           fi
