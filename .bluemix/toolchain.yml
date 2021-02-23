@@ -49,10 +49,10 @@ services:
       repo_name: "schematics-pipeline"
       repo_url: >
         $env.type === 'link' ?
-          $env.pipeline_repo : 'https://github.com/DavidLopezIBM/schematics-tekton'
+          $env.pipeline_repo : 'https://github.com/DavidLopezIBM/schematics-pipeline'
       source_repo_url: >
         $env.type === 'fork' || $env.type === 'clone' ?
-          $env.pipeline_repo : 'https://github.com/DavidLopezIBM/schematics-tekton'
+          $env.pipeline_repo : 'https://github.com/DavidLopezIBM/schematics-pipeline'
       type: $env.type || 'clone'
       has_issues: false
       enable_traceability: false
