@@ -2,6 +2,9 @@ properties:
   - type: secure
     name: apikey
     value: ${API_KEY}
+  - type: text
+    name: source_provider
+    value: ${source_provider}
 triggers:
   - type: git
     branch: main
