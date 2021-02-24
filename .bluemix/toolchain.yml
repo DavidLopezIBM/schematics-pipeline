@@ -97,6 +97,8 @@ services:
             }
         content:
           $text: pipeline-pr.yml
+        execute: >
+          $env.pipeline_type === 'tekton' ? 'manual-run' : true
       services:
         - terraform-template
         - schematics-pipeline
@@ -116,6 +118,16 @@ services:
           tekton-catalog: tekton-catalog
           API_KEY: "{{form.pipeline.parameters.api-key}}"
           WORKSPACE_ID: "{{form.pipeline.parameters.workspace-id}}"
+          event-ci-listener-name: >
+            if ( $env.source_provider === 'githubconsolidated' ) {
+              'github-ci-listener';
+            } else if ( $env.source_provider === 'bitbucketgit' ) {
+              'bitbucket-ci-listener';
+            } else if ( $env.source_provider === 'github_integrated' ) {
+              'github-ent-ci-listener';
+            } else {
+              'gitlab-ci-listener';
+            }
         content:
           $text: pipeline-deploy.yml
       services:
