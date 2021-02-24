@@ -97,8 +97,7 @@ services:
             }
         content:
           $text: pipeline-pr.yml
-        execute: >
-          $env.pipeline_type === 'tekton' ? 'manual-run' : true
+        execute: true
       services:
         - terraform-template
         - schematics-pipeline
