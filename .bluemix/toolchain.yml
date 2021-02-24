@@ -97,7 +97,7 @@ services:
             }
         content:
           $text: pipeline-pr.yml
-        execute: true
+        execute: "manual-run"
       services:
         - terraform-template
         - schematics-pipeline
