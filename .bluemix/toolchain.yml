@@ -30,7 +30,8 @@ services:
   orion:
     service_id: orion
   terraform-template:
-    service_id: "hostedgit"
+    service_id: >
+      $env.source_provider ? $env.source_provider : 'hostedgit'
     parameters:
       repo_name: "terraform-ibm-iam-{{timestamp}}"
       repo_url: >
@@ -44,7 +45,8 @@ services:
       enable_traceability: true
       legal: true
   schematics-pipeline:
-    service_id: hostedgit
+    service_id: >
+      $env.source_provider ? $env.source_provider : 'hostedgit'
     parameters:
       repo_name: "schematics-pipeline"
       repo_url: >
